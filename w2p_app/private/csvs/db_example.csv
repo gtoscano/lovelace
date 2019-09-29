@@ -1,0 +1,11 @@
+example.id,example.problem_id,example.test_in,example.test_out,example.explanation
+1,2,4,-1,<NULL>
+2,2,9,3,<NULL>
+3,2,18,4,<NULL>
+4,1,"6
+1
+6
+9
+15
+15
+5",51,"Tendrás que leer 6 números del teclado, tu programa los sumará e imprimirá en pantalla el resultado, que en este caso es 51."

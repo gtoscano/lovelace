@@ -1,0 +1,3 @@
+auth_user.id,auth_user.first_name,auth_user.last_name,auth_user.email,auth_user.username,auth_user.password,auth_user.registration_key,auth_user.reset_password_key,auth_user.registration_id,auth_user.self_description,auth_user.notify_contests,auth_user.preferred_language,auth_user.nproblems,auth_user.points
+1,Root,Superstar,gtoscano@gmail.com,root,"pbkdf2(1000,20,sha512)$8f7a704dae0d8f93$675d0be1686b6b94785e5f6563c4ac2d9c5f7cfc",<NULL>,<NULL>,<NULL>,<NULL>,False,4,0,0
+2,Gregorio,Toscano,gtoscano@cinvestav.mx,gtoscano,"pbkdf2(1000,20,sha512)$978ab90bb44b236b$70bb35434d8f458e6291676acae4870a15d31793",<NULL>,<NULL>,<NULL>,<NULL>,False,5,0,0

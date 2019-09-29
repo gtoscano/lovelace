@@ -1,0 +1,203 @@
+submission.id,submission.user_id,submission.problem_id,submission.prog_lang_id,submission.src_code,submission.filename,submission.accepted_on,submission.sended_on,submission.output_id,submission.output_tag,submission.exec_output,submission.score,submission.evaluated
+1,1,1,4,"//manos a la obra
+#include <stdio.h>
+
+int main() {
+    int nvalues;
+    int op, suma =0;
+    scanf(""%i"", &nvalues);
+    for (int i = 0; i < nvalues; i++) {
+        scanf(""%i"", &op);
+        suma += op;
+    }
+    printf(""%i\n"", suma);
+    return 0;
+}",suma.cpp,2019-09-24 12:27:48,2019-09-24 12:27:48,<NULL>,AE,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: WA
+Test 5: AC
+
+",80.0,True
+2,1,1,3,//manos a la obra,suma.cpp,2019-09-24 13:21:45,2019-09-24 13:21:45,<NULL>,CE,"Undefined symbols for architecture x86_64:
+  ""_main"", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+",0.0,True
+3,1,1,3,"//manos a la obra
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (int argc, char const *argv[])
+{
+	size_t i, n , x, suma=0; //se usa size_t en la suma para cumplir con las restricciones
+
+	scanf(""%zu"", &n); //lees por teclado la cantidad de n numeros 
+		             //que leeras a partir de aqui, y que tendras que sumar
+		
+	for(i = 0; i < n; ++i){
+		scanf(""%zu"", &x);
+		suma += x;
+	}
+	printf(""%zu\n"",suma); //ojo, se imprimi'o el n'umero sin espacio en blanco,
+ 						 // y posteriormente se le dio un 'unico retorno de l'inea
+	return 0;
+}
+",suma.cpp,2019-09-24 17:08:36,2019-09-24 17:08:36,<NULL>,AC,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: AC
+Test 5: AC
+
+",100.0,True
+4,1,2,3,"//manos a la obra
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n; cin >> n;
+    int sol = 0;
+    while (n%5 != 0)
+    {
+        n -= 3;
+        sol++;
+    }
+    if( n < 0 ) cout << -1 << endl;
+    else cout << sol + n/5 << endl;
+    return 0;
+}
+",suma.cpp,2019-09-24 22:55:43,2019-09-24 22:55:43,<NULL>,AC,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: AC
+Test 5: AC
+Test 6: AC
+Test 7: AC
+Test 8: AC
+Test 9: AC
+Test 10: AC
+
+",100.0,True
+5,1,2,3,"//manos a la obra
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n; cin >> n;
+    int sol = 0;
+    while (n%5 != 0)
+    {
+        n -= 3;
+        sol++;
+    }
+    if( n < 0 ) cout << -1 << endl;
+    else cout << sol + n/5 << endl;
+    return 0;
+}
+",suma.cpp,2019-09-24 22:59:01,2019-09-24 22:59:01,<NULL>,AC,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: AC
+Test 5: AC
+Test 6: AC
+Test 7: AC
+Test 8: AC
+Test 9: AC
+Test 10: AC
+
+",100.0,True
+6,1,2,3,"//manos a la obra
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n; cin >> n;
+    int sol = 0;
+    while (n%5 != 0)
+    {
+        n -= 3;
+        sol++;
+    }
+    if( n < 0 ) cout << -1 << endl;
+    else cout << sol + n/5 << endl;
+    return 0;
+}
+",suma.cpp,2019-09-24 23:00:35,2019-09-24 23:00:35,<NULL>,AC,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: AC
+Test 5: AC
+Test 6: AC
+Test 7: AC
+Test 8: AC
+Test 9: AC
+Test 10: AC
+
+",100.0,True
+7,1,1,5,"//manos a la obra
+
+import java.util.Scanner;
+
+public class suma {
+
+    public static void main(String[] args) {
+
+        // input
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+
+        // sum
+        int val, i, sum = 0;
+        for (i=0; i<n; i++) {
+            val = scan.nextInt();
+            sum += val;
+        }
+
+        System.out.println(sum);
+    }
+}",suma.java,2019-09-24 23:08:43,2019-09-24 23:08:43,<NULL>,AE,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: WA
+Test 5: AC
+
+",80.0,True
+8,1,1,5,"//manos a la obra
+import java.util.Scanner;
+
+public class suma {
+
+    public static void main(String[] args) {
+
+        // input
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+
+        // sum
+        int val, i, sum = 0;
+        for (i=0; i<n; i++) {
+            val = scan.nextInt();
+            sum += val;
+        }
+
+        System.out.println(sum);
+    }
+}",suma.java,2019-09-24 23:13:25,2019-09-24 23:13:25,<NULL>,AE,"Test 1: AC
+Test 2: AC
+Test 3: AC
+Test 4: WA
+Test 5: AC
+
+",80.0,True
+9,2,2,4,//manos a la obra,test.cpp,2019-09-25 12:35:57,2019-09-25 12:35:57,<NULL>,CE,"Undefined symbols for architecture x86_64:
+  ""_main"", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+",0.0,True

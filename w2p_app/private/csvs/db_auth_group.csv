@@ -1,0 +1,3 @@
+auth_group.id,auth_group.role,auth_group.description
+1,admin,Administrators
+2,problem_designers,Designers

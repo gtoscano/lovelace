@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+
+{{block header}}
+<div class="jumbotron jumbotron-fluid background" style="background-color: #333; color:white; padding:30px;word-wrap:break-word;">
+  <div class="container center">
+    <h1 class="display-5">Problemas a resolver</h1>
+  </div>
+</div>
+{{end}}
+
+<div class="row">
+  <div class="col-md-12">
+    <ol>
+    {{for my_problem in my_problems:}}
+    {{=LI(A(T(my_problem.title), _href=URL('%s' % request.application,'coder','my_problem/%s' % my_problem.id )))}}
+    {{pass}}
+    </ol>
+
+  </div>
+</div>
+
+
+

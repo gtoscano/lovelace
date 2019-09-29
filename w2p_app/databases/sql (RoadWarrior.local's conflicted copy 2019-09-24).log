@@ -1,0 +1,223 @@
+timestamp: 2019-09-24T10:43:22.123521
+CREATE TABLE "prog_lang"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "prog_lang" CHAR(512),
+    "compile_line" CHAR(512),
+    "exec_line" CHAR(512),
+    "exec_params" CHAR(512),
+    "ace_mode" CHAR(512),
+    "extension" CHAR(512)
+);
+success!
+timestamp: 2019-09-24T10:43:22.128562
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "username" CHAR(128),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512),
+    "self_description" TEXT,
+    "notify_contests" CHAR(1),
+    "preferred_language" INTEGER REFERENCES "prog_lang" ("id") ON DELETE CASCADE  ,
+    "nproblems" INTEGER,
+    "points" INTEGER
+);
+success!
+timestamp: 2019-09-24T10:43:22.135352
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-09-24T10:43:22.139122
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-24T10:43:22.142529
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2019-09-24T10:43:22.146846
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2019-09-24T10:43:22.151110
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2019-09-24T10:43:22.155492
+CREATE TABLE "exec_status"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "acronym" CHAR(512),
+    "description" CHAR(512)
+);
+success!
+timestamp: 2019-09-24T10:43:22.158224
+CREATE TABLE "system_parameters"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "file_size" INTEGER,
+    "case_size" INTEGER,
+    "cases_zip_size" INTEGER
+);
+success!
+timestamp: 2019-09-24T10:43:22.162834
+CREATE TABLE "problem"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "title" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "description" TEXT,
+    "points" INTEGER,
+    "classification" CHAR(512),
+    "n_cases" INTEGER,
+    "cases_file" CHAR(512),
+    "blob_cases_file" BLOB,
+    "src_code" CHAR(512),
+    "blob_src_code_file" BLOB,
+    "timeout" INTEGER,
+    "submitted_language" INTEGER REFERENCES "prog_lang" ("id") ON DELETE CASCADE  ,
+    "max_memory" INTEGER,
+    "ac" INTEGER,
+    "for_contest" CHAR(1),
+    "approved" CHAR(1),
+    "time_frame" INTEGER,
+    "allowed_languages" TEXT,
+    "exec_output" TEXT
+);
+success!
+timestamp: 2019-09-24T10:43:22.170441
+CREATE TABLE "test_case"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  ,
+    "test_in" TEXT,
+    "test_out" TEXT,
+    "explanation" TEXT
+);
+success!
+timestamp: 2019-09-24T10:43:22.174394
+CREATE TABLE "editorial"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  ,
+    "description" TEXT,
+    "src_code" CHAR(512),
+    "blob_file" BLOB
+);
+success!
+timestamp: 2019-09-24T10:43:22.179176
+CREATE TABLE "problem_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-24T10:43:22.183053
+CREATE TABLE "contest"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "title" CHAR(512),
+    "description" TEXT,
+    "creation_time" TIMESTAMP,
+    "start_time" TIMESTAMP,
+    "end_time" TIMESTAMP,
+    "private_event" CHAR(1),
+    "approved" CHAR(1)
+);
+success!
+timestamp: 2019-09-24T10:43:22.188607
+CREATE TABLE "contest_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "contest_id" INTEGER REFERENCES "contest" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-24T10:43:22.192884
+CREATE TABLE "contest_problem"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "contest_id" INTEGER REFERENCES "contest" ("id") ON DELETE CASCADE  ,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2019-09-24T10:43:22.197417
+CREATE TABLE "submission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  ,
+    "prog_lang_id" INTEGER REFERENCES "prog_lang" ("id") ON DELETE CASCADE  ,
+    "src_code" TEXT,
+    "filename" CHAR(512),
+    "accepted_on" TIMESTAMP,
+    "sended_on" TIMESTAMP,
+    "output_id" INTEGER REFERENCES "exec_status" ("id") ON DELETE CASCADE  ,
+    "exec_output" TEXT,
+    "score" DOUBLE
+);
+success!
+timestamp: 2019-09-24T10:43:22.204115
+CREATE TABLE "staff"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nickname" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "active_staff" CHAR(1)
+);
+success!
+timestamp: 2019-09-24T10:43:22.208613
+CREATE TABLE "faq"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "staff_id" INTEGER REFERENCES "staff" ("id") ON DELETE CASCADE  ,
+    "question" CHAR(512),
+    "answer" TEXT
+);
+success!
+timestamp: 2019-09-24T10:43:22.214429
+CREATE TABLE "post"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  ,
+    "staff_id" INTEGER REFERENCES "staff" ("id") ON DELETE CASCADE  ,
+    "question" CHAR(512),
+    "answer" TEXT
+);
+success!
+timestamp: 2019-09-24T15:36:50.094662
+CREATE TABLE "solution"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "problem_id" INTEGER REFERENCES "problem" ("id") ON DELETE CASCADE  ,
+    "prog_lang_id" INTEGER REFERENCES "prog_lang" ("id") ON DELETE CASCADE  ,
+    "src_code" TEXT,
+    "filename" CHAR(512),
+    "accepted_on" TIMESTAMP,
+    "sended_on" TIMESTAMP,
+    "output_id" INTEGER REFERENCES "exec_status" ("id") ON DELETE CASCADE  ,
+    "exec_output" TEXT,
+    "score" DOUBLE
+);
+success!
+timestamp: 2019-09-24T18:47:01.955266
+ALTER TABLE "problem" ADD "contest_id" INTEGER REFERENCES "contest" ("id") ON DELETE CASCADE  ;
+success!

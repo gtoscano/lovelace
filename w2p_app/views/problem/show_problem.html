@@ -1,0 +1,56 @@
+{{extend 'layout.html'}}
+
+
+{{block header}}
+<div class="jumbotron jumbotron-fluid background" style="background-color: #333; color:white; padding:30px;word-wrap:break-word;">
+  <div class="container center">
+    <h1 class="display-5">{{=problem.title}}</h1>
+  </div>
+</div>
+<style type="text/css" media="screen">
+    #editor {
+    /** Setting height is also important, otherwise editor wont showup**/
+    height: 500px;
+    }
+    #statusBar {
+        margin: 0;
+        padding: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 20px;
+        background-color: rgb(245, 245, 245);
+        color: red;
+    }
+    .ace_status-indicator {
+        color: gray;
+        position: absolute;
+        right: 0;
+        border-left: 1px solid;
+    }
+  </style>
+{{end}}
+
+{{=CENTER(H4("Tiempo límite de respuesta por caso: "+str(problem.timeout)+ " segundos"))}}
+{{=CENTER(H4("Máxima memoria permitida: " + str(problem.max_memory)+ " MB."))}}
+
+{{=MARKMIN(problem.description)}}
+
+<hr>
+{{=H3(T('Examples'))}}
+<div class="container-fluid">
+    {{for example in examples:}}
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">{{=H4('Input\n')}}{{=PRE(example.test_in)}}</div>
+        <div class="col-sm-4">{{=H4('Output\n')}}{{=PRE(example.test_out)}}</div>
+        <div class="col-sm-2"></div>
+    </div>
+    {{if example.explanation != None:}}
+        <div class="row"> {{=H5('Explicación: ')}}{{=MARKMIN(example.explanation)}}
+    {{pass}}
+    </div>
+    {{pass}}
+</div>
+

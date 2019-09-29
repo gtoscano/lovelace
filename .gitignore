@@ -1,3 +1,10 @@
+# web2py temp files
+w2py_app/misc/*
+w2py_app/cache/*
+w2py_app/databases/*
+w2py_app/errors/*
+w2py_app/sessions/*
+
 # Prerequisites
 *.d
 

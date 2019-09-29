@@ -1,0 +1,6 @@
+prog_lang.id,prog_lang.prog_lang,prog_lang.compile_line,prog_lang.exec_line,prog_lang.exec_params,prog_lang.ace_mode,prog_lang.extension
+1,C,gcc -g -O2 -std=gnu11  -lm ${path}/${file} -o ${path}/${file_no_ext},${path}/${file_no_ext},<NULL>,c_cpp,.c
+2,C++11,g++ -g -O2 -std=c++11  ${path}/${file} -o ${path}/${file_no_ext},${path}/${file_no_ext},<NULL>,c_cpp,.cpp
+3,C++14,g++ -g -O2 -std=c++14  ${path}/${file} -o ${path}/${file_no_ext},${path}/${file_no_ext},<NULL>,c_cpp,.cpp
+4,C++17,g++ -g -O2 -std=c++17  ${path}/${file} -o ${path}/${file_no_ext},${path}/${file_no_ext},<NULL>,c_cpp,.cpp
+5,Java,javac   ${path}/${file},java,${file_no_ext},java,.java

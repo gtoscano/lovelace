@@ -1,0 +1,3 @@
+auth_membership.id,auth_membership.user_id,auth_membership.group_id
+1,1,1
+2,1,2

@@ -1,0 +1,2 @@
+contest.id,contest.user_id,contest.title,contest.description,contest.creation_time,contest.start_time,contest.end_time,contest.private_event,contest.approved
+1,1,Tamcoder 2019 Pruebas Segunda Fase,Segunda Fase del Evento Tamcoder 2019,2019-09-24 12:12:25,2019-09-24 12:00:00,2019-09-25 20:00:00,False,True

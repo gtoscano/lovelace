@@ -1,0 +1,304 @@
+{{extend 'layout.html'}}
+
+
+{{block header}}
+<div class="jumbotron jumbotron-fluid background" style="background-color: #333; color:white; padding:30px;word-wrap:break-word;">
+  <div class="container center">
+    <h1 class="display-5">{{=problem.title}}</h1>
+  </div>
+</div>
+<style type="text/css" media="screen">
+    #editor {
+    /** Setting height is also important, otherwise editor wont showup**/
+    height: 500px;
+    }
+    #statusBar {
+        margin: 0;
+        padding: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 20px;
+        background-color: rgb(245, 245, 245);
+        color: red;
+    }
+    .ace_status-indicator {
+        color: gray;
+        position: absolute;
+        right: 0;
+        border-left: 1px solid;
+    }
+  </style>
+{{end}}
+
+{{=CENTER(H4("Tiempo límite de respuesta por caso: "+str(problem.timeout)+ " segundos"))}}
+{{=CENTER(H4("Máxima memoria permitida: " + str(problem.max_memory)+ " MB."))}}
+
+{{=MARKMIN(problem.description)}}
+{{=H4("Para concluir este desafío, envía tu solución:")}}
+
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8"> 
+            <select onchange = "get_prog_lang_changed()" id = "drop-down-prog_lang" class="form-control">
+                {{for i in prog_lang:}}
+                    {{if preferred_prog_lang == i.id:}}
+                    <option value="{{=i.id}}-{{i.ace_mode}}" selected>{{=i.prog_lang}}</option>
+                    {{else:}}
+                    <option value="{{=i.id}}-{{i.ace_mode}}">{{=i.prog_lang}}</option>
+                    {{pass}}
+                {{pass}}
+            </select>
+        </div>
+        <!---    <button onclick="getDataIDE()">Obtener datos</button> --->
+    </div>
+</div>
+
+
+<div class="one" id="a">Hello</div>
+<div class="two" id="b">World</div>
+<script>
+jQuery(document).ready(function(){
+   jQuery('.one').click(function(){jQuery('.two').slideToggle()});
+});
+</script>
+
+<form>
+   <input name="name" onkeyup="ajax('{{=URL('coder', 'echo')}}', ['name'], ':eval')" />
+</form>
+<div id="target"></div>
+
+<form>
+   <input name="name2" onkeyup="ajax('{{=URL('coder', 'echo2')}}', ['name'], 'target2')" />
+</form>
+<div id="target2"></div>
+
+
+
+<!-- AQUI EMPIEZA A DIBUJAR EL FORM PARA ESCRIBIR LOS DATOS DEL ARCHIVO-->
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <button onclick="cppIDE()">C++</button>
+            <button onclick="javaIDE()">Java</button>
+        </div>
+        <div class="col-md-2">
+            <a class="btn btn-secondary" id="compile_and_execute" onclick=compile_code_and_execute()>Compilar & Ejecutar</a>
+        </div>
+        <div class="col-md-8">
+            {{=form_src}}
+        </div>
+        <!---    <button onclick="getDataIDE()">Obtener datos</button> --->
+    </div>
+</div>
+
+
+<hr>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8" id="editor">//manos a la obra</div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12" id="editor_stdin"></div>
+                <div id="statusBar" >stdin</div>
+                <div class="scrollmargin" ></div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="editor_stdout"></div>
+                <div id="statusBar" >stdout</div>
+                <div class="scrollmargin"></div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<br>
+<script src="{{=URL('static','ace-builds/src/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+<script src="{{=URL('static','ace-builds/src/ext-statusbar.js')}}" type="text/javascript" charset="utf-8"></script>
+<script src="{{=URL('static','ace-builds/src/ext-settings_menu.js')}}" type="text/javascript" charset="utf-8"></script>
+<script src="{{=URL('static','ace-builds/src-noconflict/ext-language_tools.js')}}" type="text/javascript" charset="utf-8"></script>
+<script>
+    function get_prog_lang_changed() {
+        //alert($('#drop-down-prog_lang').val());
+        var ace_mode = $('#drop-down-prog_lang').val();
+
+        IDE_mode(ace_mode.split("-")[1]);
+        $("#prog_lang").val(ace_mode.split("-")[0])
+    }
+    function cppIDE() {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/c_cpp");
+        var input = $('textarea[name="code"]');
+        $('#prog_lang').val(1);
+        editor.getSession().on("change", function () {
+            input.val(editor.getSession().getValue());
+        });
+    }
+    function javaIDE() {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/java");
+        var input = $('textarea[name="code"]');
+        $('#prog_lang').val(2);
+        editor.getSession().on("change", function () {
+            input.val(editor.getSession().getValue());
+        });
+    }
+    function IDE_mode(ace_mode) {
+        //alert(ace_mode)
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/" + ace_mode);
+        var input = $('textarea[name="code"]');
+        $('#prog_lang').val(2);
+        editor.getSession().on("change", function () {
+            input.val(editor.getSession().getValue());
+        });
+    }
+    
+    function getDataIDE(){
+        var input = $('textarea[name="code"]').val();
+        document.getElementById('lbltipAddedComment').innerHTML = input;
+    }
+
+    var editor = ace.edit("editor",{maxLines: 33,
+        minLines: 33,});
+    var StatusBar = ace.require("ace/ext/statusbar").StatusBar;
+    // create a simple selection status indicator
+    var statusBar = new StatusBar(editor, document.getElementById("statusBar"));
+
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/c_cpp");
+    ace.require('ace/ext/settings_menu').init(editor);
+    editor.commands.addCommands([{
+        name: "showSettingsMenu",
+        bindKey: {win: "Ctrl-q", mac: "Ctrl-q"},
+        exec: function(editor) {
+            editor.showSettingsMenu();
+        },
+        readOnly: true,
+    }]);
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
+    });
+    var input = $('textarea[name="code"]');
+    
+    // Actualizar el valor del campo oculto al cargar inicialmente
+    var code = editor.getValue();
+    $('#src_code').val(code);
+    $('#prog_lang').val(1);
+    editor.getSession().on("change", function () {
+        input.val(editor.getSession().getValue());
+        
+        // Actualizar el valor del campo oculto en cada cambio
+        var code = editor.getValue();
+        $('#src_code').val(code);
+    });
+    
+    function compile_code_and_execute(){
+        // Obtener el code del editor
+        var code_src = editor.getValue();
+        var code_stdin = editor_stdin.getValue();
+        var code_stdout = editor_stdout.getValue();
+        var prog_lang = $('#drop-down-prog_lang').val();
+
+        write_in_stdout("COMPILANDO AHORA ...");
+        
+        // Enviar peticion ajax asíncrona
+        $.ajax({
+            url: "{{=URL('coder','echo3')}}",
+            type: "POST",
+            context: document.body,
+            // Configuracion de parametros de la petición
+            data: {
+                code_src: code_src,
+                code_stdin: code_stdin,
+                prog_lang: prog_lang.split("-")[0]
+            },
+            dataType: "json",
+            // Cuando la petición se termine de procesar (con exito)
+            success: function(respuesta){
+                // Imprimir en consola la respuesta desde el servidor
+                console.log("RESPUESTA DESDE EL SERVIDOR");
+                console.log(respuesta);
+                
+                // Si la respuesta no esta vacia
+                if(respuesta){
+                    var salida = "";
+                    salida += "STDOUT: "+respuesta.stdout+" \n";
+                    salida += "TIEMPO DE EJECUCIÓN: "+respuesta.tiempo_ejecucion+" \n";
+                    salida += "TIEMPO DE COMPILACIÓN: "+respuesta.tiempo_compilacion+" \n";
+                    
+                    // Actualizar el valor del editor de salida
+                    write_in_stdout(salida);
+                }else{
+                    write_in_stdout("");
+                }
+            },
+            // En caso de que ocurra un error, conexion a internet, interrumpido, etc
+            error: function(error){
+                write_in_stdout("ERROR: "+error);
+            }
+        });
+        
+        ///console.log("code");
+        //console.log(code);
+        // Insertar code al editor
+        //editor_stdout.setValue("new code here");
+        //$('#src_code').val(code);
+        //$('#src_stdin').val(code_stdin);
+        //ajax('{{=URL('coder', 'echo3')}}', ['src_code', 'src_stdin', 'prog_lang'], ':eval')
+        //ajax('{{=URL('coder', 'echo3')}}', ['src_code', 'src_stdin', 'prog_lang'], 'editor_stdin'); //not working properly
+        //ajax('{{=URL('coder', 'echo3')}}', ['src_code', 'src_stdin', 'prog_lang'], 'write_in_stdout'); //not working properly
+    }
+
+    function write_in_stdout(value){
+        //var code_stdout = editor_stdout.getValue();
+        editor_stdout.setValue(value);
+
+    }
+
+    var editor_stdin = ace.edit("editor_stdin", {
+        theme: "ace/theme/clouds",
+        mode: "ace/mode/text",
+        maxLines: 15,
+        minLines: 15,
+        wrap: true,
+        showGutter: true,
+    });
+
+    var editor_stdout = ace.edit("editor_stdout", {
+        theme: "ace/theme/terminal",
+        mode: "ace/mode/text",
+        autoScrollEditorIntoView: true,
+        maxLines: 15,
+        showGutter: false,
+        minLines: 15,
+        readOnly: true,
+    });
+    var first_ace_mode = "{{=prog_lang[preferred_prog_lang].ace_mode}}";
+    IDE_mode(first_ace_mode);
+    $("#prog_lang").val("{{=preferred_prog_lang}}")
+</script>
+
+</div>
+
+
+<ol>
+{{for post in posts:}}
+    {{=LI(P(MARKMIN('''**%s preguntó:** %s''' % (str(db.auth_user[post.user_id].first_name), post.question))))}}
+    {{if not(post.answer==None or post.answer ==''):}}
+      {{=P(MARKMIN("**Respuesta:** %s" % (post.answer)))}}
+    {{pass}}
+{{pass}}
+</ol>
